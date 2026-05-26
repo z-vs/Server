@@ -1,0 +1,9 @@
+package com.finance.domain.model
+
+data class Category(
+    val id: Int,
+    val userId: Int,
+    val name: String,
+    val type: String,
+    val icon: String?
+)
