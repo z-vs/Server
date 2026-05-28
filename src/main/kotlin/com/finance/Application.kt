@@ -58,6 +58,7 @@ fun Application.module() {
     val deleteTransactionUseCase = DeleteTransactionUseCase(transactionRepository)
 
     configureSerialization()
+    configureLogging()
     configureCORS()
     configureStatusPages()
     configureAuthentication(jwtSecret, jwtIssuer, jwtAudience)
