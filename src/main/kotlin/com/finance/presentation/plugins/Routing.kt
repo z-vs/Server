@@ -9,7 +9,9 @@ import com.finance.domain.usecase.transaction.*
 import com.finance.presentation.routes.authRoutes
 import com.finance.presentation.routes.categoryRoutes
 import com.finance.presentation.routes.transactionRoutes
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.*
+import io.ktor.server.response.respond
 import io.ktor.server.routing.*
 
 fun Application.configureRouting(
@@ -25,6 +27,9 @@ fun Application.configureRouting(
     categoryRepository: com.finance.domain.repository.CategoryRepository
 ) {
     routing {
+        get("/health") {
+            call.respond(HttpStatusCode.OK, mapOf("status" to "ok", "version" to "1.0.0"))
+        }
         authRoutes(registerUseCase, loginUseCase, jwtService)
         transactionRoutes(
             getTransactionsUseCase,
