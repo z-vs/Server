@@ -13,8 +13,7 @@ class CategoryRepositoryImpl : CategoryRepository {
         id     = this[CategoriesTable.id].value,
         userId = this[CategoriesTable.userId],
         name   = this[CategoriesTable.name],
-        type   = this[CategoriesTable.type],
-        icon   = this[CategoriesTable.icon]
+        type   = this[CategoriesTable.type]
     )
 
     override suspend fun getAllByUserId(userId: Int): List<Category> =
@@ -35,15 +34,13 @@ class CategoryRepositoryImpl : CategoryRepository {
     override suspend fun create(
         userId: Int,
         name: String,
-        type: String,
-        icon: String?
+        type: String
     ): Category =
         newSuspendedTransaction {
             val insertedId = CategoriesTable.insertAndGetId {
                 it[CategoriesTable.userId] = userId
                 it[CategoriesTable.name]   = name
                 it[CategoriesTable.type]   = type
-                it[CategoriesTable.icon]   = icon
             }
             CategoriesTable
                 .select { CategoriesTable.id eq insertedId }
@@ -60,8 +57,7 @@ class CategoryRepositoryImpl : CategoryRepository {
     override suspend fun update(
         id: Int,
         name: String,
-        type: String,
-        icon: String?
+        type: String
     ): Category? =
         newSuspendedTransaction {
             val updated = CategoriesTable.update(
@@ -69,7 +65,6 @@ class CategoryRepositoryImpl : CategoryRepository {
             ) {
                 it[CategoriesTable.name] = name
                 it[CategoriesTable.type] = type
-                it[CategoriesTable.icon] = icon
             }
             if (updated > 0) {
                 CategoriesTable
