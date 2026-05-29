@@ -16,8 +16,7 @@ class CreateCategoryUseCase(
     suspend fun execute(
         userId: Int,
         name: String,
-        type: String,
-        icon: String?
+        type: String
     ): Result {
         return try {
             if (name.isBlank()) return Result.EmptyName
@@ -26,8 +25,7 @@ class CreateCategoryUseCase(
             val category = categoryRepository.create(
                 userId = userId,
                 name   = name,
-                type   = type,
-                icon   = icon
+                type   = type
             )
             Result.Success(category)
         } catch (e: Exception) {
