@@ -27,7 +27,7 @@ fun Route.categoryRoutes(
                 when (val result = getCategoriesUseCase.execute(userId)) {
                     is GetCategoriesUseCase.Result.Success -> {
                         val response = result.categories.map {
-                            CategoryResponse(it.id, it.name, it.type, it.icon)
+                            CategoryResponse(it.id, it.name, it.type)
                         }
                         call.respond(HttpStatusCode.OK, response)
                     }
@@ -43,16 +43,14 @@ fun Route.categoryRoutes(
                 when (val result = createCategoryUseCase.execute(
                     userId = userId,
                     name   = request.name,
-                    type   = request.type,
-                    icon   = request.icon
+                    type   = request.type
                 )) {
                     is CreateCategoryUseCase.Result.Success ->
                         call.respond(HttpStatusCode.Created,
                             CategoryResponse(
                                 result.category.id,
                                 result.category.name,
-                                result.category.type,
-                                result.category.icon
+                                result.category.type
                             )
                         )
                     is CreateCategoryUseCase.Result.EmptyName ->
@@ -81,9 +79,9 @@ fun Route.categoryRoutes(
                     return@put
                 }
 
-                val updated = categoryRepository.update(categoryId, request.name, request.type, request.icon)
+                val updated = categoryRepository.update(categoryId, request.name, request.type)
                 if (updated != null) {
-                    call.respond(HttpStatusCode.OK, CategoryResponse(updated.id, updated.name, updated.type, updated.icon))
+                    call.respond(HttpStatusCode.OK, CategoryResponse(updated.id, updated.name, updated.type))
                 } else {
                     call.respond(HttpStatusCode.NotFound, "Category not found")
                 }
