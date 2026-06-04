@@ -5,21 +5,18 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class CreateCategoryRequest(
     val name: String,
-    val type: String,
-    val icon: String? = null
+    val type: String
 )
 
 @Serializable
 data class UpdateCategoryRequest(
     val name: String,
-    val type: String,
-    val icon: String? = null
+    val type: String
 )
 
 @Serializable
 data class CategoryResponse(
     val id: Int,
     val name: String,
-    val type: String,
-    val icon: String?
+    val type: String
 )
